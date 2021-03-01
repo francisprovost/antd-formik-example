@@ -1,12 +1,8 @@
 {
-  "name": "react-typescript",
+  "name": "antd-formik-example",
   "version": "1.0.0",
-  "description": "React and TypeScript example starter project",
-  "keywords": [
-    "typescript",
-    "react",
-    "starter"
-  ],
+  "description": "",
+  "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
     "antd": "4.13.0",
