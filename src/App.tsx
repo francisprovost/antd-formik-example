@@ -4,16 +4,12 @@ import { FieldArray, Formik } from "formik";
 import { DatePicker, Form, Input, Radio, Select } from "formik-antd";
 import "./styles.css";
 import { Button } from "antd";
-
-// TODO Components to have
-// - ✅ text input
-// - radio
-// - Select
-// - Lists
-// - Date
-// - ✅ Hidden fields
+import * as yup from "yup";
 
 export default function App() {
+  const validationSchema = yup.object().shape({
+    name: yup.string().min(2, "tpp short!").required()
+  });
   return (
     <div className="App">
       <Formik
@@ -25,7 +21,12 @@ export default function App() {
           birthday: "",
           friends: ["rick"]
         }}
-        render={({ values }) => (
+        onSubmit={(values) => {
+          console.log("values::", values);
+        }}
+        validationSchema={validationSchema}
+      >
+        {({ values, errors, touched }) => (
           <Form>
             <Input name="id" hidden />
             <label>
@@ -68,8 +69,13 @@ export default function App() {
                   <div>
                     {values.friends &&
                       values.friends.map((friend, index) => (
-                        <Input name={`friends.${index}`} />
+                        <Input
+                          key={`friends.${index}`}
+                          name={`friends.${index}`}
+                        />
                       ))}
+                    <pre>ERRORS:{JSON.stringify(errors, null, 2)}</pre>
+                    <pre>Touched:{JSON.stringify(touched, null, 2)}</pre>
                     <Button onClick={() => arrayHelper.push("")}>Add</Button>
                   </div>
                 )}
@@ -78,10 +84,7 @@ export default function App() {
             <Button htmlType="submit"> Submit </Button>
           </Form>
         )}
-        onSubmit={(values) => {
-          console.log("values::", values);
-        }}
-      />
+      </Formik>
     </div>
   );
 }
